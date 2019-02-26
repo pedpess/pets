@@ -19,6 +19,7 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -138,7 +139,7 @@ public class CatalogActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             // Respond to a click on the "Insert dummy data" menu option
             case R.id.action_insert_dummy_data:
-                insertDummyPet();
+                insertPet();
                 displayDatabaseInfo();
                 return true;
             // Respond to a click on the "Delete all entries" menu option
@@ -149,18 +150,14 @@ public class CatalogActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void insertDummyPet() {
-        SQLiteDatabase sqLiteDatabase = petDbHelper.getWritableDatabase();
+    private void insertPet () {
 
-        ContentValues contentValues = new ContentValues();
+        ContentValues values = new ContentValues();
+        values.put(PetContract.PetEntry.COLUMN_PET_NAME, "Toto");
+        values.put(PetContract.PetEntry.COLUMN_PET_BREED, "Terrier");
+        values.put(PetContract.PetEntry.COLUMN_PET_GENDER, PetContract.PetEntry.GENDER_MALE);
+        values.put(PetContract.PetEntry.COLUMN_PET_WEIGHT, 7);
 
-        contentValues.put(PetContract.PetEntry.COLUMN_PET_NAME, "Toto");
-        contentValues.put(PetContract.PetEntry.COLUMN_PET_BREED, "Terrier");
-        contentValues.put(PetContract.PetEntry.COLUMN_PET_GENDER, PetContract.PetEntry.GENDER_MALE);
-        contentValues.put(PetContract.PetEntry.COLUMN_PET_WEIGHT, 7);
-
-        long newRowId = sqLiteDatabase.insert(PetContract.PetEntry.TABLE_NAME, null, contentValues);
-
-        Log.d("CatologActivity", "New row ID: " + newRowId);
+        Uri newUri = getContentResolver().insert(PetContract.CONTENT_URI, values);
     }
 }
