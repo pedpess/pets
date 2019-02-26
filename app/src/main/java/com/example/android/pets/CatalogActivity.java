@@ -70,7 +70,7 @@ public class CatalogActivity extends AppCompatActivity {
         // Create and/or open a database to read from it
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
 
-        String[] project = {
+        String[] projection = {
                 PetContract.PetEntry._ID,
                 PetContract.PetEntry.COLUMN_PET_NAME,
                 PetContract.PetEntry.COLUMN_PET_BREED,
@@ -78,11 +78,9 @@ public class CatalogActivity extends AppCompatActivity {
                 PetContract.PetEntry.COLUMN_PET_WEIGHT
         };
 
-        Cursor cursor = db.query(
-                PetContract.PetEntry.TABLE_NAME,
-                project,
-                null,
-                null,
+        Cursor cursor = getContentResolver().query(
+                PetContract.CONTENT_URI,
+                projection,
                 null,
                 null,
                 null);
