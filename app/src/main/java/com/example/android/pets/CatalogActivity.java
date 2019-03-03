@@ -53,6 +53,11 @@ public class CatalogActivity extends AppCompatActivity {
         });
 
         petDbHelper = new PetDbHelper(this);
+
+        ListView petListView = (ListView) findViewById(R.id.list);
+
+        View emptyView = findViewById(R.id.empty_view);
+        petListView.setEmptyView(emptyView);
     }
 
     @Override
